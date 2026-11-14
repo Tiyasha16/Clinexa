@@ -1,49 +1,44 @@
-# Clinexa
-Clinexa – An AI-assisted Clinical Decision Support Platform
 # Clinexa — Clinical Decision Support Platform
 
 <p align="center">
-  <strong>A clinical intelligence workspace for patient monitoring, clinical insights, rule-based alerts, and AI-assisted review.</strong>
+  <strong>A clinician-facing workspace for patient monitoring, clinical insights, deterministic alerts, and guided AI-assisted review.</strong>
 </p>
 
 <p align="center">
-  ![React](https://img.shields.io/badge/React-2026-61DAFB?logo=react&logoColor=white)
-  ![Django](https://img.shields.io/badge/Django-5.2-092E20?logo=django&logoColor=white)
+  ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+  ![Django](https://img.shields.io/badge/Django-5.2-092E20?logo=django)
   ![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)
-  ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+  ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python)
   ![AI](https://img.shields.io/badge/AI-Llama%203.1-8B5CF6)
-  ![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+  ![Status](https://img.shields.io/badge/Status-Active%20Development-orange)
 </p>
 
 ---
 
 ## Overview
 
-**Clinexa** is a full-stack, clinician-facing Clinical Decision Support Platform designed to help healthcare professionals review patient information, monitor clinical measurements, identify abnormal readings, explore historical trends, and receive contextual AI-assisted insights.
+**Clinexa** is a full-stack Clinical Decision Support Platform prototype designed to help clinicians review patient information, monitor clinical measurements, identify readings that meet configured alert rules, explore historical trends, and use a guided AI-assisted review workflow.
 
-The platform combines structured patient data, deterministic rule-based alerts, interactive data visualizations, and a controlled AI review workflow into a unified clinical workspace.
+The platform combines structured patient records, deterministic backend alerts, clinical statistics, interactive visualizations, and controlled AI-assisted review in one workspace.
 
-Clinexa aims to make clinical information easier to interpret by presenting relevant measurements, trends, and alerts in a clear and organized interface.
-
-> **Important:** Clinexa is a clinical decision-support prototype, not an autonomous diagnostic or treatment system. It uses synthetic patient data. It does not independently diagnose diseases, prescribe medication, or determine treatment. AI-generated content requires clinician review.
+> **Important:** Clinexa is an educational and portfolio-oriented prototype, not an autonomous diagnostic, prescribing, or treatment system. It uses synthetic patient data. AI-generated content is assistive only and requires clinician review. Prototype alert thresholds are not clinical guidelines.
 
 ## Key Features
 
 | Feature | Description | Status |
 |---|---|---|
-| Authentication | Secure registration and login using JWT | Implemented |
-| Role-Based Access | Separate Doctor and Admin roles | Implemented |
-| Patient Management | Create, retrieve and manage patient records | Implemented |
-| Clinical Measurements | Record five types of clinical measurements | Implemented |
-| Clinical Statistics | Aggregate measurement statistics | Implemented |
-| Clinical Trends | Historical measurement visualization | Implemented |
-| Rule-Based Alerts | Automatically identify configured abnormal readings | Implemented |
-| Dashboard | Clinical command center and overview | Implemented |
-| Clinical Data | Real patient data, filters and interactive trends | Integrated |
-| Alert Center | Review and filter clinical alerts | UI complete; API integration pending |
-| AI Review | Guided patient-specific AI-assisted review | In development |
-| Synthetic Dataset | Generate longitudinal patient histories | Planned |
-| Auditability | Traceable clinical-support activity | Foundation implemented; enhancements planned |
+| Authentication | Registration, login and JWT access/refresh flow | Implemented |
+| Role-Based Access | DOCTOR and ADMIN roles with backend permission checks | Implemented |
+| Patient Management | Patient records and management APIs | Integrated |
+| Clinical Measurements | Five measurement categories with backend validation | Implemented |
+| Clinical Statistics | Measurement counts and aggregate statistics | Integrated |
+| Clinical Trends | Historical measurements and interactive charts | Integrated |
+| Rule-Based Alerts | Backend rules generate alerts from submitted measurements | Implemented |
+| Dashboard | Overview populated from backend APIs | Integrated and tested |
+| Clinical Data | Patient measurements, filters, latest readings and trends | Integrated |
+| Alert Center | Alert filtering, acknowledgement and resolution | Integrated and tested |
+| AI Review | Predefined patient-specific review and follow-up options | Implemented; final workflow verification remains |
+| Synthetic Dataset | Larger longitudinal dataset for demonstration | Planned |
 
 ## Technology Stack
 
@@ -57,48 +52,50 @@ Clinexa aims to make clinical information easier to interpret by presenting rele
 | Tailwind CSS | Styling and responsive layouts |
 | React Router | Application navigation and protected routes |
 | Axios | Backend API communication |
-| Recharts | Interactive clinical data visualization |
+| Recharts | Clinical data visualization |
 | Lucide React | Interface icons |
+| React Markdown | Rendering formatted AI responses |
 
 ### Backend
 
 | Technology | Purpose |
 |---|---|
 | Python | Backend programming language |
-| Django | Backend framework |
+| Django 5.2 | Backend framework |
 | Django REST Framework | REST API development |
-| MySQL | Relational database |
+| MySQL | Relational database configured in Django settings |
 | SimpleJWT | JWT authentication |
-| Django CORS Headers | Cross-origin communication |
+| django-cors-headers | Cross-origin request configuration |
 
 ### AI Integration
 
 | Technology | Purpose |
 |---|---|
 | Cloudflare Workers AI | AI inference platform |
-| Meta Llama 3.1 8B Instruct | Contextual AI-assisted review |
+| Meta Llama 3.1 8B Instruct | Guided AI-assisted review |
 
 ## System Architecture
 
-Clinexa follows a frontend-backend architecture in which React communicates with Django REST APIs, while Django manages authentication, business logic, database operations, clinical rules and AI integration.
+Clinexa follows a frontend-backend architecture. The React application communicates with Django REST APIs. Django handles authentication, authorization, validation, database operations, clinical statistics, deterministic alert generation, and AI review orchestration.
 
 ```mermaid
 flowchart TD
     A["React Frontend"] --> B["Axios API Client"]
     B --> C["Django REST Framework"]
 
-    C --> D["Authentication & RBAC"]
+    C --> D["Authentication & Role Permissions"]
     C --> E["Patient Management"]
     C --> F["Clinical Measurements"]
     C --> G["Statistics & Trends"]
-    C --> H["Alert Engine"]
-    C --> I["AI Assistant"]
+    C --> H["Deterministic Alert Engine"]
+    C --> I["Guided AI Review"]
 
     D --> J[("MySQL Database")]
     E --> J
     F --> J
     G --> J
     H --> J
+    I --> J
 
     I --> K["Cloudflare Workers AI"]
     K --> L["Llama 3.1 8B Instruct"]
@@ -108,142 +105,135 @@ flowchart TD
 
 | Django App | Responsibility |
 |---|---|
-| users | Authentication, user management and roles |
-| patients | Patient records and CRUD operations |
-| clinical | Clinical measurements, validation, statistics and trends |
-| alerts | Alert models, deterministic rules and alert generation |
-| ai_assistant | Controlled AI integration and review workflow |
+| `users` | Authentication, user management and roles |
+| `patients` | Patient records and patient APIs |
+| `clinical` | Clinical measurements, validation, statistics and trends |
+| `alerts` | Alert records, deterministic rules and alert actions |
+| `ai_assistant` | Guided AI review, conversations and messages |
 
 ## Clinical Measurements
 
-Clinexa supports five clinical measurement categories:
+Clinexa supports five measurement categories:
 
 - Heart Rate (BPM)
 - Blood Glucose (mg/dL)
 - Blood Pressure (mmHg)
 - SpO₂ (%)
-- Body Temperature (°C)
+- Temperature (°C)
 
-Blood pressure is stored using separate systolic and diastolic values, while other measurements use scalar values.
+Blood pressure is represented using separate systolic and diastolic values. Other supported measurements use a scalar value where applicable.
 
-## Rule-Based Alert System
+## Deterministic Alert Engine
 
-Clinexa uses a deterministic rule engine to identify measurements that cross configured prototype thresholds.
+When a clinical measurement is created, the backend validates and saves it, then evaluates the configured rules. If a rule condition is met, an alert is generated and made available through the Alerts API.
 
-| Measurement | Configured Threshold | Severity |
+| Measurement | Configured prototype condition | Severity |
 |---|---|---|
-| Heart Rate | Below 50 or above 120 BPM | Medium |
-| Blood Glucose | Below 70 or above 180 mg/dL | Medium |
-| Blood Pressure | Systolic ≥ 140 or diastolic ≥ 90 mmHg | High |
-| SpO₂ | Below 92% | High |
-| Temperature | Below 36°C or above 38°C | Medium |
-
-### How It Works
+| Heart Rate | Below 50 or above 120 BPM | MEDIUM |
+| Blood Glucose | Below 70 or above 180 mg/dL | MEDIUM |
+| Blood Pressure | Systolic ≥ 140 or diastolic ≥ 90 mmHg | HIGH |
+| SpO₂ | Below 92% | HIGH |
+| Temperature | Below 36°C or above 38°C | MEDIUM |
 
 ```mermaid
 flowchart TD
     A["New Clinical Measurement"] --> B["Serializer Validation"]
     B --> C["Save Measurement"]
-    C --> D["Execute Alert Rules"]
-    D --> E{"Threshold Crossed?"}
-    E -->|Yes| F["Generate Alert"]
-    E -->|No| G["No Alert Generated"]
-    F --> H["Save Alert in Database"]
-    H --> I["Clinician Reviews Alert"]
+    C --> D["Evaluate Configured Rules"]
+    D --> E{"Rule Condition Met?"}
+    E -->|Yes| F["Create Alert"]
+    E -->|No| G["No Alert"]
+    F --> H["Clinician Reviews Alert"]
+    H --> I["Acknowledge"]
+    I --> J["Resolve"]
 ```
 
-These thresholds are configurable prototype decision-support rules, not standalone clinical guidelines or treatment recommendations.
+These are prototype rule configurations for demonstration and testing. They are not clinical guidelines or treatment recommendations.
 
 ## Guided AI Review
 
-Clinexa incorporates an AI-assisted clinical review system designed around predefined interactions rather than an unrestricted medical chatbot.
+Clinexa includes a controlled AI-assisted review workflow. It is designed around predefined clinical-review options and predefined follow-up choices rather than unrestricted, open-ended medical questions.
 
-### Planned Interaction Flow
+The workflow uses patient-specific information available to the application and stores review conversations and messages.
 
-1. Doctor selects a patient.
-2. Doctor opens the AI Review section.
-3. Clinexa presents predefined review categories.
-4. Doctor selects a review category.
-5. Backend retrieves relevant patient measurements, statistics, trends and alerts.
-6. Context is supplied to the AI model.
-7. AI generates a contextual review.
-8. Clinexa presents predefined follow-up options.
-9. Doctor reviews and interprets the generated content.
+The initial review interaction and a predefined follow-up interaction have been tested. Conversation history and end-review behaviour remain part of final verification.
 
-### Initial Review Categories
+**AI safety:** Generated content is assistive only. Clinicians remain responsible for reviewing information and making decisions. Clinexa does not independently diagnose, prescribe, or determine treatment.
 
-- Vital Trends
-- Abnormal Readings
-- Recent Measurements
-- Alert Summary
+## API Overview
 
-**AI Safety:** AI-generated responses are assistive only. Clinician review remains necessary. The system does not independently diagnose, prescribe or determine treatment.
+The backend exposes REST APIs for authentication, patient management, clinical data, alerts, user management and guided AI review.
 
-## API Endpoints
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/api/auth/register/` | POST | Register a user |
+| `/api/auth/token/` | POST | Obtain JWT tokens |
+| `/api/auth/token/refresh/` | POST | Refresh an access token |
+| `/api/patients/` | GET, POST | List and create patient records |
+| `/api/clinical/` | GET, POST | Retrieve and create clinical measurements |
+| `/api/clinical/statistics/` | GET | Retrieve clinical statistics |
+| `/api/clinical/trends/` | GET | Retrieve measurement trends |
+| `/api/clinical/latest/` | GET | Retrieve latest measurements |
+| `/api/clinical/recent/` | GET | Retrieve recent measurements |
+| `/api/alerts/` | GET | Retrieve alerts |
+| `/api/alerts/active/` | GET | Retrieve active alerts |
+| `/api/alerts/statistics/` | GET | Retrieve alert statistics |
+| `/api/alerts/{id}/acknowledge/` | PATCH | Acknowledge an alert |
+| `/api/alerts/{id}/resolve/` | PATCH | Resolve an alert |
+| `/api/ai-assistant/review/` | POST | Start or continue a guided AI review |
+| `/api/ai-assistant/end/` | POST | End an AI conversation |
+| `/api/ai-assistant/history/` | GET | Retrieve completed review history |
 
-The backend exposes REST APIs for authentication, patient management, clinical data and alerts.
-
-| Endpoint | Purpose |
-|---|---|
-| `POST /api/auth/register/` | User registration |
-| `POST /api/auth/token/` | JWT login |
-| `POST /api/auth/token/refresh/` | Refresh access token |
-| `/api/patients/` | Patient CRUD |
-| `/api/clinical/` | Clinical measurement CRUD |
-| `/api/clinical/statistics/` | Aggregate statistics |
-| `/api/clinical/trends/` | Historical trends |
-| `/api/clinical/latest/` | Latest readings |
-| `/api/alerts/` | Clinical alert management |
-| `/api/users/` | Admin user management |
-
-Protected endpoints require appropriate authentication and permissions.
+Protected endpoints require valid authentication and appropriate backend permissions. See [`docs/database-and-api.md`](docs/database-and-api.md) for additional API and data-model documentation.
 
 ## Getting Started
 
 ### Prerequisites
 
-Install the following before running Clinexa:
+Install the following:
 
 - Python 3.x
 - Node.js and npm
 - MySQL Server
-- MySQL Workbench (optional)
 - Git
+- MySQL Workbench (optional)
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <https://github.com/Tiyasha16/Clinexa.git>
+git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd Clinexa
 ```
 
+Replace the placeholder with the actual repository URL after publishing the cleaned project.
+
 ### 2. Backend Setup
 
-Navigate to the Django backend directory:
+Open a terminal and navigate to the backend:
 
 ```bash
 cd backend
 ```
 
-Create and activate a virtual environment:
+Create a virtual environment:
 
 ```bash
 python -m venv venv
 ```
 
-Windows:
+Activate it on Windows:
 
 ```bash
 venv\Scripts\activate
 ```
 
-Install the required dependencies:
+Install the backend packages used by the project:
 
 ```bash
-pip install django djangorestframework django-cors-headers mysqlclient djangorestframework-simplejwt
+pip install django==5.2 djangorestframework django-cors-headers mysqlclient djangorestframework-simplejwt
 ```
 
-Configure the MySQL database and Django settings using your local development configuration.
+Configure the MySQL database and required Django settings using local environment variables. Do not commit secret keys, database passwords, or AI credentials.
 
 Apply migrations:
 
@@ -257,19 +247,21 @@ Create an administrator account:
 python manage.py createsuperuser
 ```
 
-Start the Django development server:
+Start the backend development server:
 
 ```bash
 python manage.py runserver
 ```
 
-Backend server:
+The default local development address is:
 
-`http://127.0.0.1:8000/`
+```text
+http://127.0.0.1:8000/
+```
 
 ### 3. Frontend Setup
 
-Open another terminal and navigate to the frontend directory:
+Open a second terminal and navigate to the frontend directory from the repository root:
 
 ```bash
 cd frontend
@@ -287,22 +279,23 @@ Start the Vite development server:
 npm run dev
 ```
 
-Open the local development URL displayed by Vite.
+Open the local URL printed by Vite in the terminal.
 
 ### Configuration Notes
 
-- Configure database credentials and Django secrets locally; never commit them.
-- Configure the frontend API base URL to match the backend.
-- Configure Cloudflare Workers AI credentials and endpoint before running AI-assisted features.
-- Keep sensitive credentials in environment variables.
+- Configure the database name, username, password, host and port for your local MySQL instance.
+- Configure Django's secret key and other sensitive settings through environment variables before sharing or deploying the project.
+- Configure the frontend API base URL to point to the backend server.
+- Configure Cloudflare Workers AI credentials and the required model/service settings before using AI-assisted features.
+- Keep `.env` files and credentials out of version control.
+- The supplied Django settings configure MySQL. Verify your own active local configuration before running migrations.
+
+**Dependency note:** The uploaded project archive did not contain a backend `requirements.txt`. The install command above lists the core packages identified for this project; create and maintain a pinned requirements file as part of release preparation.
 
 ## Project Structure
 
-The following is the intended high-level organization; adjust directory names to match the actual repository.
-
 ```text
 Clinexa/
-│
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -317,6 +310,7 @@ Clinexa/
 │   ├── clinical/
 │   ├── alerts/
 │   ├── ai_assistant/
+│   ├── config/
 │   └── manage.py
 │
 ├── docs/
@@ -331,84 +325,80 @@ Clinexa/
 
 ## UI Design Philosophy
 
-Clinexa uses a premium, dark-first clinical SaaS design language.
+Clinexa uses a premium, dark-first clinical SaaS design language:
 
 - Deep navy and charcoal backgrounds.
-- Electric cyan and aqua intelligence accents.
-- Green, amber and red clinical status indicators.
-- Prominent clinical measurements and clean typography.
+- Electric cyan and aqua accents.
+- Clear clinical status indicators.
+- Prominent measurements and readable typography.
 - Interactive charts with contextual information.
-- Floating navigation and subtle transitions.
-- Responsive layouts and accessibility-conscious interactions.
+- Subtle transitions and responsive layouts.
+- Accessibility-conscious focus and reduced-motion behaviour.
 
-The objective is to create a focused clinical workspace where patient data remains the visual centerpiece.
+The objective is to create a focused clinical workspace where patient information remains the visual centerpiece.
 
 ## Security and Responsible AI
 
 Clinexa follows these development principles:
 
-- Synthetic patient data only.
-- JWT-protected API access.
-- Role-based authorization.
-- Input validation for clinical measurements.
+- Synthetic patient data for demonstrations.
+- JWT-based authentication.
+- Backend role-based permission enforcement.
+- Serializer-level measurement validation.
 - Deterministic alert generation.
-- Controlled AI interaction.
+- Controlled AI interaction through predefined options.
 - Clinician review of AI-generated content.
 - No autonomous diagnosis or prescribing.
 - Sensitive credentials must remain outside version control.
 
+Before public release, complete a security review covering Django secrets, database credentials, AI credentials, CORS settings, token configuration, debug settings, `.gitignore`, and repository history. Rotate any credentials that may have been exposed.
+
 ## Current Development Status
 
-**Current checkpoint: Alerts frontend API integration.**
+**Current phase:** Feature verification, documentation alignment, and final integration preparation.
 
-Completed:
+Completed or integrated:
+
 - Frontend and backend foundations.
-- Authentication and role-based access.
-- Patient management APIs.
-- Clinical measurement APIs and validation.
-- Statistics, latest readings and trends.
-- Rule-based alert engine for all five metrics.
-- Dashboard and Patients UI.
-- Backend-integrated Clinical Data page.
-- Initial Alerts and AI Review interfaces.
-- Cloudflare Workers AI endpoint testing.
+- Authentication and role-based user structure.
+- Patient management APIs and frontend integration.
+- Clinical measurement APIs and validation for five measurement categories.
+- Statistics, latest readings, recent measurements and trends APIs.
+- Deterministic alert generation.
+- Dashboard backend integration (tested).
+- Clinical Data backend integration.
+- Alerts backend integration, including acknowledgement and resolution (tested).
+- Guided AI review endpoint and initial/follow-up interaction testing.
+- Supporting architecture, workflow, database/API, progress and portfolio documentation drafts.
 
-In progress / remaining:
-- Integrate Alerts page with real backend data.
-- Complete alert actions where supported.
-- Replace remaining static Dashboard values.
-- Implement the complete guided AI Review workflow.
-- Generate a larger synthetic dataset.
-- Complete cross-page and end-to-end testing.
-- Improve audit logging.
-- Complete security and deployment configuration.
-- Prepare final screenshots and portfolio documentation.
+Remaining:
 
-See [`docs/PROJECT_PROGRESS.md`](docs/PROJECT_PROGRESS.md) for the detailed development tracker.
+- Final verification of AI conversation history and end-review behaviour.
+- Generate a larger longitudinal synthetic dataset.
+- Complete cross-page integration and end-to-end testing.
+- Review security configuration and move hardcoded secrets into environment variables.
+- Add and verify backend dependency lock/requirements documentation.
+- Finalize screenshots, demo flow and portfolio documentation.
+- Prepare the cleaned repository for GitHub publication.
 
-## Future Enhancements
+See [`docs/PROJECT_PROGRESS.md`](docs/PROJECT_PROGRESS.md) for the detailed progress tracker.
 
-- Longitudinal synthetic patient dataset.
-- More comprehensive clinical trend analysis.
-- Complete guided AI review and contextual follow-ups.
-- Improved audit trails.
-- Comprehensive API and integration testing.
-- Production deployment and documentation.
+## Documentation
 
-## Portfolio Significance
-
-Clinexa demonstrates the practical application of full-stack development, relational database design, REST API engineering, authentication, clinical data visualization, deterministic rule processing and AI integration.
-
-The project highlights the distinction between traditional rule-based clinical alerts and AI-assisted contextual review, with an emphasis on responsible AI boundaries and clinician oversight.
+- [Architecture](docs/architecture.md)
+- [Workflows](docs/workflows.md)
+- [Database and API](docs/database-and-api.md)
+- [Project Progress](docs/PROJECT_PROGRESS.md)
+- [Portfolio Overview](docs/PORTFOLIO.md)
 
 ## Disclaimer
 
-Clinexa is an educational and portfolio-oriented clinical decision-support prototype. It is not a medical device or a substitute for professional medical judgment. All patient information used in the project is synthetic.
+Clinexa is an educational and portfolio-oriented clinical decision-support prototype. It is not a medical device and is not a substitute for professional medical judgement. All patient information used for demonstrations is synthetic.
 
 ---
 
 <p align="center">
-  **Clinexa — Turning Clinical Data into Meaningful Insights.**
+  <strong>Clinexa — Turning Clinical Data into Meaningful Insights.</strong>
 </p>
 
 <p align="center">
